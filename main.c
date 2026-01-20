@@ -10,7 +10,6 @@
 void
 shader(struct screen *scr, float time, int i, int j)
 {
-
 	float u = ((float)i / (scr->w-1))*2 - 1;
 	float v = ((float)j / (scr->h-1))*2 - 1;
 
