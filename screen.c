@@ -1,7 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define ASCII_MODE false
+
 #define ANSI_LEN 22
+
+#define LIGHT_LEVELS 10
+
+char br_vals[LIGHT_LEVELS] = { ' ', '.', ':', '+', '?', '|', '/', 'O', '8', 'X' };
 
 // pixel_t's format -> "\e[48;2;000;000;000m  "
 typedef char pixel_t[ANSI_LEN];
@@ -32,6 +38,19 @@ screen_set_px_impl(pixel_t *px, int col)
 	int b = col & 0xff;
 
 	sprintf(*px, "\e[48;2;%d;%d;%dm  ", r, g, b);
+
+#if ASCII_MODE
+	float brightness = (float)(r + g + b) / (3 * 255);
+
+	// clamp
+	brightness *= 2;
+	if (brightness > 1)
+		brightness = 1;
+
+	int id = brightness * (LIGHT_LEVELS-1);
+
+	sprintf(*px, "\e[38;2;%d;%d;%dm%c%c", r, g, b, br_vals[id], br_vals[id]);
+#endif
 }
 
 struct screen
