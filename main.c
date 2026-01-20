@@ -38,7 +38,6 @@ shader(struct screen *scr, float time, int i, int j)
 		g = 255;
 		b = 255;
 	}
-
 /*
  * The end.
  */
