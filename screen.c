@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define ASCII_MODE false
+// false it to just view color and not ascii
+#define ASCII_MODE 1
 
 #define ANSI_LEN 22
 
