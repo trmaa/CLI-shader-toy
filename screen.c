@@ -4,11 +4,11 @@
 // false it to just view color and not ascii
 #define ASCII_MODE 1
 
-#define ANSI_LEN 22
+#define ANSI_LEN 23
 
 #define LIGHT_LEVELS 10
 
-char br_vals[LIGHT_LEVELS] = { ' ', '.', ':', '+', '?', '|', '/', 'O', '8', 'X' };
+char br_vals[LIGHT_LEVELS] = { ' ', '.', ':', '+', '?', '|', '/', 'O', '8', '#' };
 
 // pixel_t's format -> "\e[48;2;000;000;000m  "
 typedef char pixel_t[ANSI_LEN];
@@ -49,6 +49,20 @@ screen_set_px_impl(pixel_t *px, int col)
 		brightness = 1;
 
 	int id = brightness * (LIGHT_LEVELS-1);
+
+	if (r >= g && r >= b) {
+		g = 255 * (float)g/r;
+		b = 255 * (float)b/r;
+		r = 255;
+	} else if (g >= r && g >= b) {
+		r = 255 * (float)r/g;
+		b = 255 * (float)b/g;
+		g = 255;
+	} else {
+		r = 255 * (float)r/b;
+		g = 255 * (float)g/b;
+		b = 255;
+	}
 
 	sprintf(*px, "\e[38;2;%d;%d;%dm%c%c", r, g, b, br_vals[id], br_vals[id]);
 #endif
