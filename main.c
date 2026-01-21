@@ -6,7 +6,6 @@
 void
 shader(struct screen *scr, float time, int i, int j)
 {
-
 	float viewport = (float)scr->w / scr->h;
 
 	float u = ((float)i / (scr->w-1))*2 - 1;
@@ -15,6 +14,14 @@ shader(struct screen *scr, float time, int i, int j)
 	u *= viewport;
 
 	float rad = (u*u + v*v) / (1 + viewport*viewport); // from 0 to 1;
+
+	float sin = sinf(time);
+	float cos = cosf(time);
+
+	if (sin < 0)
+		sin *= -1;
+	if (cos < 0)
+		cos *= -1;
 
 	int col = 0, r = 0, g = 0, b = 0;
 
@@ -25,18 +32,20 @@ shader(struct screen *scr, float time, int i, int j)
 	r = 255 * (((float)i / (scr->w-1))*2 - 1);
 	g = 255 * (((float)j / (scr->h-1))*2 - 1);
 
-	r *= rad * sin(time);
-	g *= rad * sin(time);
+	r *= rad * sin;
+	g *= rad * sin;
 
 	if (r < 0)
 		r *= -1;
 	if (g < 0)
 		g *= -1;
 
-	if (rad < 0.05) {
+	b = 255 * rad * cos;
+
+	if (rad < sin * 0.1 && rad > sin * 0.05) {
 		r = 255;
-		g = 255;
-		b = 255;
+		g = 255 * cos;
+		b = 255 * cos;
 	}
 /*
  * The end.
