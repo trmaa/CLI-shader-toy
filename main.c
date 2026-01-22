@@ -76,6 +76,6 @@ main(void)
 
 		scr.print(scr);	
 
-		usleep(16667);
+		usleep(1667);
 	}
 }
