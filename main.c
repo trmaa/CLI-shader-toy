@@ -65,7 +65,7 @@ main(void)
 
 	float time;
 
-	while (1) {
+	for (;;) {
 		system("clear");
 
 		time += 0.01f;
@@ -76,6 +76,6 @@ main(void)
 
 		scr.print(scr);	
 
-		usleep(1667);
+		usleep(16667);
 	}
 }
